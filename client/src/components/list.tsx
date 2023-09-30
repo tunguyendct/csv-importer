@@ -4,12 +4,14 @@ import { AuthorFilter, AuthorsResponse } from "../types/author";
 import Pagination from "./pagination";
 import AUTHOR from "../constants/author";
 import Search from "./search";
+import Table from "./table";
 
 const { LIST_LIMIT } = AUTHOR;
 
 const List = ({ initialData }: { initialData: AuthorsResponse }) => {
-  const { data, fetchData } = useFetchData(initialData);
+  const { data, isLoading, fetchData } = useFetchData(initialData);
   const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(LIST_LIMIT);
   const [query, setQuery] = useState("");
 
   if (!data) return <></>;
@@ -18,10 +20,8 @@ const List = ({ initialData }: { initialData: AuthorsResponse }) => {
     data: { authors, total },
   } = data;
 
-  const totalPage = Math.ceil(total / LIST_LIMIT);
-
   const handleFetchData = (value: AuthorFilter) => {
-    const params = { page, query, ...value };
+    const params = { page, q: query, limit, ...value };
     fetchData(params);
   };
 
@@ -30,22 +30,20 @@ const List = ({ initialData }: { initialData: AuthorsResponse }) => {
       <Search
         handleFetchData={handleFetchData}
         setQuery={setQuery}
-        query={query}
-      />
-      {authors.map((row) => (
-        <div key={row.id} className="flex">
-          <div>{row.id}</div>
-          <div>{row.postId}</div>
-          <div>{row.name}</div>
-          <div>{row.email}</div>
-          <div>{row.body}</div>
-        </div>
-      ))}
-      <Pagination
-        totalPage={totalPage}
-        handleFetchData={handleFetchData}
         setPage={setPage}
+        query={query}
+        isLoading={isLoading}
       />
+      <Table authors={authors} isLoading={isLoading} />
+      <div className="mt-6 flex justify-end">
+        <Pagination
+          page={page}
+          isLoading={isLoading}
+          total={total}
+          handleFetchData={handleFetchData}
+          setPage={setPage}
+        />
+      </div>
     </>
   );
 };

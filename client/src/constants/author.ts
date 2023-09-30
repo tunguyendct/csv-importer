@@ -1,5 +1,5 @@
 const AUTHOR = {
-  LIST_LIMIT: 20
+  LIST_LIMIT: 10
 }
 
 export default AUTHOR

@@ -22,7 +22,7 @@ const fileFilter = (req, file, cb) => {
   } else {
     req.fileValidationError = {
       status: "fail",
-      message: "Only support CSV file",
+      message: "Only support CSV file.",
     };
     return cb(null, false, req.fileValidationError);
   }

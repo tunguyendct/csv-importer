@@ -8,6 +8,8 @@ const searchAuthors = async (req, res) => {
   const q = query.q || null;
   const page = query.page ? +query.page : 1;
 
+  console.log({ query });
+
   const filterQuery = !!q
     ? {
         OR: [
@@ -18,7 +20,12 @@ const searchAuthors = async (req, res) => {
       }
     : {};
 
-  const total = await prisma.author.count();
+  const total = await prisma.author.count({
+    orderBy: {
+      id: "asc",
+    },
+    where: filterQuery,
+  });
 
   if (total === 0)
     return res.status(200).send({
