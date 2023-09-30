@@ -11,8 +11,8 @@ datasource db {
 }
 
 model Author {
-  id     String @id @map("_id") //@default(auto()) @map("_id") @db.ObjectId
-  postId String
+  id     Int @id @map("_id") //@default(auto()) @map("_id") @db.ObjectId
+  postId Int
   name   String
   email  String
   body   String
