@@ -30,7 +30,7 @@ Utilities:
 **1. Clone repo**
 
 ```bash
-git clone git@github.com:tunguyendct/stengg-mini-project.git & cd stengg-mini-project
+git clone git@github.com:tunguyendct/stengg-mini-project.git && cd stengg-mini-project
 ```
 
 **2. Rename `.env` files**
@@ -40,25 +40,27 @@ git clone git@github.com:tunguyendct/stengg-mini-project.git & cd stengg-mini-pr
 
 **3. Install**
 
-Server
+**Server**
 
 ```bash
 npm install
 ```
 
-Client
+**Client**
 ```bash
 npm run install:client
 ```
 
 ## Run project
 
-Server
+**Server**
 ```bash
 npm run start
 ```
 
-Client
+**Client**
+
+Open another terminal in folder `stengg-mini-project` and run
 
 ```bash
 npm run start:client
