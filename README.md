@@ -51,7 +51,7 @@ Client
 npm run install:client
 ```
 
-**5. Start Project**
+## Run project
 
 Server
 ```bash
