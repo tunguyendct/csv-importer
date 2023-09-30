@@ -30,7 +30,7 @@ Utilities:
 **1. Clone repo**
 
 ```bash
-git clone git@github.com:tunguyendct/stengg-mini-project.git & cd stengg-mini-project
+git clone git@github.com:tunguyendct/stengg-mini-project.git && cd stengg-mini-project
 ```
 
 **2. Rename `.env` files**
