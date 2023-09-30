@@ -8,8 +8,6 @@ const searchAuthors = async (req, res) => {
   const q = query.q || null;
   const page = query.page ? +query.page : 1;
 
-  console.log({ query });
-
   const filterQuery = !!q
     ? {
         OR: [

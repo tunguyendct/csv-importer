@@ -43,7 +43,6 @@ function App() {
       .then(async (resp) => {
         if (!resp.ok) {
           const res = await resp.json();
-          console.log(res);
           toast.error(res.message);
           setIsLoading(false);
         } else {
