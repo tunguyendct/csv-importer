@@ -1,16 +1,17 @@
-import React, {
-  ChangeEvent,
-  FormEvent,
-  FormEventHandler,
-  FormHTMLAttributes,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import "./App.css";
+import List from "./components/list";
+import CONSTANTS from "./constants";
+import { useFetchData } from "./hooks/useFetchData";
+
+const { ADMIN_URL } = CONSTANTS;
 
 function App() {
   const [selectedFiles, setSelectedFiles] = useState<File | undefined>(
     undefined
   );
+
+  const { data, fetchData } = useFetchData(null);
 
   const handleSelectFile = async (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -33,18 +34,28 @@ function App() {
 
     formData.append("file", selectedFiles);
 
-    await fetch("http://localhost:5000/api/upload", {
+    fetch(`${ADMIN_URL}/api/upload`, {
       method: "POST",
       body: formData,
     })
-      .then((resp) => {
-        setSelectedFiles(undefined);
+      .then(async (resp) => {
+        if (!resp.ok) {
+          const res = await resp.json()
+          console.log(res)
+        }
+        return resp
       })
-      .catch((e) => console.log(e));
+      .then(resp => {
+        fetchData();
+        setSelectedFiles(undefined);
+      }) 
+      .catch((e) => {
+        console.log(e)
+      });
   };
 
   return (
-    <div>
+    <>
       <form onSubmit={onSubmit}>
         <input type="file" onChange={handleSelectFile} />
         <button
@@ -56,7 +67,24 @@ function App() {
           Submit
         </button>
       </form>
-    </div>
+      <button
+        onClick={() => fetchData()}
+        className={`border border-solid border-gray-500 rounded py-1 px-2${
+          !selectedFiles ? " cursor-not-allowed opacity-50" : ""
+        }`}
+      >
+        List data
+      </button>
+      {!!data && data.status === "success" ? (
+        data.data.total > 0 ? (
+          <List initialData={data} />
+        ) : (
+          <p>Author not found</p>
+        )
+      ) : (
+        <></>
+      )}
+    </>
   );
 }
 
