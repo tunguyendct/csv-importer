@@ -40,25 +40,27 @@ git clone git@github.com:tunguyendct/stengg-mini-project.git && cd stengg-mini-p
 
 **3. Install**
 
-Server
+**Server**
 
 ```bash
 npm install
 ```
 
-Client
+**Client**
 ```bash
 npm run install:client
 ```
 
 ## Run project
 
-Server
+**Server**
 ```bash
 npm run start
 ```
 
-Client
+**Client**
+
+Open another terminal in folder `stengg-mini-project` and run
 
 ```bash
 npm run start:client
