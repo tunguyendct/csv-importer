@@ -1,60 +1,62 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 const searchAuthors = async (req, res) => {
-  const { query } = req;
-  const limit = query.limit ? +query.limit : 20;
-  const q = query.q || null;
-  const page = query.page ? +query.page : 1;
+  const { query } = req
+  const limit = query.limit ? +query.limit : 20
+  const q = query.q || null
+  const page = query.page ? +query.page : 1
 
   const filterQuery = !!q
     ? {
         OR: [
-          { name: { contains: q, mode: "insensitive" } },
-          { email: { contains: q, mode: "insensitive" } },
-          { body: { contains: q, mode: "insensitive" } },
+          { name: { contains: q, mode: 'insensitive' } },
+          { email: { contains: q, mode: 'insensitive' } },
+          { body: { contains: q, mode: 'insensitive' } },
         ],
       }
-    : {};
+    : {}
 
+  // Get total items
   const total = await prisma.author.count({
     orderBy: {
-      id: "asc",
+      id: 'asc',
     },
     where: filterQuery,
-  });
+  })
 
   if (total === 0)
     return res.status(200).send({
-      status: "success",
+      status: 'success',
       data: {
         total,
         authors: [],
       },
-    });
+    })
 
+  // Filter items
   const authors = await prisma.author.findMany({
     take: limit,
     skip: (page - 1) * limit,
     orderBy: {
-      id: "asc",
+      id: 'asc',
     },
     where: filterQuery,
-  });
+  })
 
   if (!authors)
     return res.status(500).send({
-      status: "error",
-      message: "Unable to fetch authors list",
-    });
+      status: 'error',
+      message: 'Unable to fetch authors list',
+    })
   return res.status(200).send({
-    status: "success",
+    status: 'success',
     data: {
       total,
       authors,
     },
-  });
-};
+  })
+}
 
-export default searchAuthors;
+export default searchAuthors

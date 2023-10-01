@@ -1,75 +1,82 @@
-import { ChangeEvent, FormEvent, useState } from "react";
-import { Toaster, toast } from "react-hot-toast";
-import List from "./components/list";
-import CONSTANTS from "./constants";
-import { STATUS, MESSAGE } from "./constants/response";
-import UPLOADER from "./constants/uploader";
-import { useFetchData } from "./hooks/useFetchData";
-import UploadIcon from "./icons/upload";
-import CircleNotchIcon from "./icons/circle-notch";
-import FileIcon from "./icons/file";
-import "./App.css";
+import { ChangeEvent, FormEvent, useState } from 'react'
+import { toast, Toaster } from 'react-hot-toast'
+import List from './components/list'
+import CONSTANTS from './constants'
+import { MESSAGE, STATUS } from './constants/response'
+import UPLOADER from './constants/uploader'
+import { useFetchData } from './hooks/useFetchData'
+import CircleNotchIcon from './icons/circle-notch'
+import FileIcon from './icons/file'
+import UploadIcon from './icons/upload'
+import './App.css'
 
-const { ADMIN_URL } = CONSTANTS;
+const { ADMIN_URL } = CONSTANTS
 
 function App() {
-  const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(false);
-  const { data, isError, error, fetchData } = useFetchData(null);
+  const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined)
+  const [isLoading, setIsLoading] = useState(false)
+  const { data, isError, error, fetchData } = useFetchData(null)
 
   const handleSelectFile = async (e: ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-    if (!files || !files.length) return;
+    const { files } = e.target
+    if (!files || !files.length) return
 
-    const file = Array.from(files)[0];
+    const file = Array.from(files)[0]
 
+    // Empty file
     if (file.size < 0) {
-      return;
+      toast.error(MESSAGE.FILE_EMPTY)
+      return
     }
 
-    if (!file.type.includes("csv")) {
-      toast.error(MESSAGE.WRONG_TYPE);
-      return;
+    // Wrong type
+    if (!file.type.includes('csv')) {
+      toast.error(MESSAGE.WRONG_TYPE)
+      return
     }
 
+    // Over max size
     if (file.size > UPLOADER.MAX_SIZE) {
-      toast.error(MESSAGE.OVER_SIZE);
-      return;
+      toast.error(MESSAGE.OVER_SIZE)
+      return
     }
 
-    setSelectedFile(file);
-  };
+    setSelectedFile(file)
+  }
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!selectedFile) return;
-    setIsLoading(true);
-    let formData = new FormData();
+    e.preventDefault()
+    if (!selectedFile) return
+    setIsLoading(true)
+    let formData = new FormData()
 
-    formData.append("file", selectedFile);
+    formData.append('file', selectedFile)
 
     fetch(`${ADMIN_URL}/api/upload`, {
-      method: "POST",
+      method: 'POST',
       body: formData,
     })
       .then(async (resp) => {
         if (!resp.ok) {
-          const res = await resp.json();
-          toast.error(res.message);
-          setIsLoading(false);
+          // Error
+          const res = await resp.json()
+          toast.error(res.message)
+          setIsLoading(false)
         } else {
-          fetchData();
-          setSelectedFile(undefined);
-          toast.success(MESSAGE.UPLOAD_SUCCESS);
-          setIsLoading(false);
+          // Process succeed
+          fetchData()
+          setSelectedFile(undefined)
+          toast.success(MESSAGE.UPLOAD_SUCCESS)
+          setIsLoading(false)
         }
       })
       .catch((e) => {
-        console.log(e);
-        toast.error(MESSAGE.UNKNOWN);
-        setIsLoading(false);
-      });
-  };
+        // Connection errors
+        console.log(e)
+        toast.error(MESSAGE.UNKNOWN)
+        setIsLoading(false)
+      })
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 text-gray-600">
@@ -115,11 +122,11 @@ function App() {
           >
             {isLoading ? (
               <span className="flex gap-x-1 items-center justify-center">
-                <CircleNotchIcon className="animate-spin fill-white " />{" "}
+                <CircleNotchIcon className="animate-spin fill-white " />{' '}
                 Processing...
               </span>
             ) : (
-              "Upload"
+              'Upload'
             )}
           </button>
         </fieldset>
@@ -137,7 +144,7 @@ function App() {
       )}
       <Toaster position="top-center" toastOptions={{ duration: 50000 }} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,9 +1,9 @@
-import { Author } from "../types/author";
+import { Author } from '../types/author'
 
 type Props = {
-  isLoading: boolean;
-  authors: Author[];
-};
+  isLoading: boolean
+  authors: Author[]
+}
 
 export default function Table({ isLoading, authors }: Props) {
   return (
@@ -44,7 +44,7 @@ export default function Table({ isLoading, authors }: Props) {
         </tbody>
       )}
     </table>
-  );
+  )
 }
 
 function Thead() {
@@ -62,7 +62,7 @@ function Thead() {
         <th className="p-3 text-left border-b border-gray-200">Body</th>
       </tr>
     </thead>
-  );
+  )
 }
 
 function Skeleton() {
@@ -91,5 +91,5 @@ function Skeleton() {
         </tr>
       ))}
     </tbody>
-  );
+  )
 }

@@ -1,18 +1,18 @@
-import { Dispatch, SetStateAction } from "react";
-import ReactPaginate from "react-paginate";
-import { AuthorFilter } from "../types/author";
-import AUTHOR from "../constants/author";
-import ChevronLeftIcon from "../icons/chevron-left";
+import { Dispatch, SetStateAction } from 'react'
+import ReactPaginate from 'react-paginate'
+import AUTHOR from '../constants/author'
+import ChevronLeftIcon from '../icons/chevron-left'
+import { AuthorFilter } from '../types/author'
 
-const { LIST_LIMIT } = AUTHOR;
+const { LIST_LIMIT } = AUTHOR
 
 type Props = {
-  page: number;
-  total: number;
-  isLoading: boolean;
-  handleFetchData: (value: AuthorFilter) => void;
-  setPage: Dispatch<SetStateAction<number>>;
-};
+  page: number
+  total: number
+  isLoading: boolean
+  handleFetchData: (value: AuthorFilter) => void
+  setPage: Dispatch<SetStateAction<number>>
+}
 
 const Pagination = ({
   page,
@@ -21,10 +21,10 @@ const Pagination = ({
   handleFetchData,
   setPage,
 }: Props) => {
-  const numOfPages = Math.ceil(total / LIST_LIMIT);
+  const numOfPages = Math.ceil(total / LIST_LIMIT)
   const pageClassName =
-    "text-xs border border-solid rounded lg:text-base border-gray-200 w-9 h-9 hover:bg-gray-100";
-  const pageLinkClassName = "flex w-full h-full items-center justify-center";
+    'text-xs border border-solid rounded lg:text-base border-gray-200 w-9 h-9 hover:bg-gray-100'
+  const pageLinkClassName = 'flex w-full h-full items-center justify-center'
   return (
     <>
       <ReactPaginate
@@ -33,8 +33,8 @@ const Pagination = ({
           <ChevronLeftIcon className="rotate-180 fill-gray-600 text-sm" />
         }
         onPageChange={({ selected }) => {
-          setPage(selected + 1);
-          handleFetchData({ page: selected + 1 });
+          setPage(selected + 1)
+          handleFetchData({ page: selected + 1 })
         }}
         pageCount={numOfPages}
         previousLabel={<ChevronLeftIcon className="fill-gray-600 text-sm" />}
@@ -52,7 +52,7 @@ const Pagination = ({
         forcePage={page - 1}
       />
     </>
-  );
-};
+  )
+}
 
-export default Pagination;
+export default Pagination

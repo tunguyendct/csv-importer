@@ -5,4 +5,4 @@ export type Error = {
   message: String
 }
 
-// Reference: https://github.com/omniti-labs/jsend
+// Convention: https://github.com/omniti-labs/jsend

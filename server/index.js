@@ -1,35 +1,36 @@
-import express, { Router } from "express";
-import path from "path";
-import cors from "cors";
-import uploadFile from "./middleware/upload.js";
-import csvController from "./controllers/csv.controller.js";
-import searchAuthors from "./controllers/author.controller.js";
+import cors from 'cors'
+import express, { Router } from 'express'
+import path from 'path'
+import searchAuthors from './controllers/author.controller.js'
+import csvController from './controllers/csv.controller.js'
+import uploadFile from './middleware/upload.js'
 
-const router = Router();
+const router = Router()
 
-global.__basedir = path.resolve() + "/..";
+global.__basedir = path.resolve() + '/..'
 
-const app = express();
+const app = express()
 
 const corsOptions = {
-  origin: "http://localhost:3000",
-};
+  origin: 'http://localhost:3000',
+}
 
-app.use(cors(corsOptions));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true, limit: "1mb" }));
+// Middleware
+app.use(cors(corsOptions))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true, limit: '1mb' }))
 
 // API routes
-app.use("/api", router);
+app.use('/api', router)
 
-router.post("/upload", uploadFile.single("file"), csvController.upload);
-router.get("/search", searchAuthors);
+router.post('/upload', uploadFile.single('file'), csvController.upload)
+router.get('/search', searchAuthors)
 
-app.get("/", function (req, res) {
-  res.send("Hello");
-});
+app.get('/', function (_req, res) {
+  res.send('Hello')
+})
 
-const port = 5000;
+const port = 5000
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}.`);
-});
+  console.log(`Server is running on port ${port}.`)
+})

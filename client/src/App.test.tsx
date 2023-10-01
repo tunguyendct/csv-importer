@@ -12,7 +12,7 @@ import {
 import App from "./App";
 import { MESSAGE } from "./constants/response";
 
-describe("File Upload DOM", () => {
+describe("File Upload", () => {
   let appComponent: RenderResult;
   let container: HTMLElement;
 

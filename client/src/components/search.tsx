@@ -1,14 +1,14 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useDebouncedValue } from "../hooks/useDebouncedValue";
-import { AuthorFilter } from "../types/author";
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { useDebouncedValue } from '../hooks/useDebouncedValue'
+import { AuthorFilter } from '../types/author'
 
 type Props = {
-  query: string;
-  isLoading: boolean;
-  setPage: Dispatch<SetStateAction<number>>;
-  setQuery: Dispatch<SetStateAction<string>>;
-  handleFetchData: (value: AuthorFilter) => void;
-};
+  query: string
+  isLoading: boolean
+  setPage: Dispatch<SetStateAction<number>>
+  setQuery: Dispatch<SetStateAction<string>>
+  handleFetchData: (value: AuthorFilter) => void
+}
 
 const Search = ({
   query,
@@ -17,19 +17,20 @@ const Search = ({
   setQuery,
   handleFetchData,
 }: Props) => {
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
-  const { value, setValue, debouncedValue } = useDebouncedValue<string>(query);
+  const [isFirstLoad, setIsFirstLoad] = useState(true)
+  const { value, setValue, debouncedValue } = useDebouncedValue<string>(query)
 
   useEffect(() => {
+    // Avoid running at the first render
     if (isFirstLoad) {
-      setIsFirstLoad(false);
+      setIsFirstLoad(false)
     } else {
-      setQuery(debouncedValue);
-      setPage(1);
-      handleFetchData({ q: debouncedValue, page: 1 });
+      setQuery(debouncedValue)
+      setPage(1)
+      handleFetchData({ q: debouncedValue, page: 1 })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedValue]);
+  }, [debouncedValue])
 
   return (
     <div className="my-6 max-w-md mx-auto">
@@ -45,13 +46,13 @@ const Search = ({
         className="border-gray-300 border-solid border w-full rounded-sm px-2 py-1.5 disabled:cursor-not-allowed"
         type="text"
         onChange={(e) => {
-          setValue(e.currentTarget.value);
+          setValue(e.currentTarget.value)
         }}
         value={value}
         placeholder="Search name, email or body of Author..."
       />
     </div>
-  );
-};
+  )
+}
 
-export default Search;
+export default Search

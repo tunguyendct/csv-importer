@@ -1,33 +1,33 @@
-import { useState } from "react";
-import { useFetchData } from "../hooks/useFetchData";
-import { AuthorFilter, AuthorsResponse } from "../types/author";
-import Pagination from "./pagination";
-import AUTHOR from "../constants/author";
-import Search from "./search";
-import Table from "./table";
+import { useState } from 'react'
+import AUTHOR from '../constants/author'
+import { useFetchData } from '../hooks/useFetchData'
+import { AuthorFilter, AuthorsResponse } from '../types/author'
+import Pagination from './pagination'
+import Search from './search'
+import Table from './table'
 
-const { LIST_LIMIT } = AUTHOR;
+const { LIST_LIMIT } = AUTHOR
 
 const List = ({ initialData }: { initialData: AuthorsResponse }) => {
   const { data, isError, error, isLoading, fetchData } =
-    useFetchData(initialData);
-  const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("");
-  
+    useFetchData(initialData)
+  const [page, setPage] = useState(1)
+  const [query, setQuery] = useState('')
+
   if (isError && !!error) {
-    return <div className="text-base p-3 text-center">{error.message}</div>;
+    return <div className="text-base p-3 text-center">{error.message}</div>
   }
 
-  if (!data) return <></>;
-  
+  if (!data) return <></>
+
   const {
     data: { authors, total },
-  } = data;
+  } = data
 
   const handleFetchData = (value: AuthorFilter) => {
-    const params = { page, q: query, limit: LIST_LIMIT, ...value };
-    fetchData(params);
-  };
+    const params = { page, q: query, limit: LIST_LIMIT, ...value }
+    fetchData(params)
+  }
 
   return (
     <>
@@ -38,10 +38,7 @@ const List = ({ initialData }: { initialData: AuthorsResponse }) => {
         query={query}
         isLoading={isLoading}
       />
-      <Table
-        authors={authors}
-        isLoading={isLoading}
-      />
+      <Table authors={authors} isLoading={isLoading} />
       <div className="mt-6 flex justify-end">
         <Pagination
           page={page}
@@ -52,7 +49,7 @@ const List = ({ initialData }: { initialData: AuthorsResponse }) => {
         />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default List;
+export default List
