@@ -1,19 +1,21 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import "./App.css";
 import List from "./components/list";
 import CONSTANTS from "./constants";
+import { STATUS, MESSAGE } from "./constants/response";
+import UPLOADER from "./constants/uploader";
 import { useFetchData } from "./hooks/useFetchData";
 import UploadIcon from "./icons/upload";
 import CircleNotchIcon from "./icons/circle-notch";
 import FileIcon from "./icons/file";
+import "./App.css";
 
 const { ADMIN_URL } = CONSTANTS;
 
 function App() {
   const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
-  const { data, fetchData } = useFetchData(null);
+  const { data, isError, error, fetchData } = useFetchData(null);
 
   const handleSelectFile = async (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -22,6 +24,16 @@ function App() {
     const file = Array.from(files)[0];
 
     if (file.size < 0) {
+      return;
+    }
+
+    if (!file.type.includes("csv")) {
+      toast.error(MESSAGE.WRONG_TYPE);
+      return;
+    }
+
+    if (file.size > UPLOADER.MAX_SIZE) {
+      toast.error(MESSAGE.OVER_SIZE);
       return;
     }
 
@@ -48,13 +60,13 @@ function App() {
         } else {
           fetchData();
           setSelectedFile(undefined);
-          toast.success("Success.");
+          toast.success(MESSAGE.UPLOAD_SUCCESS);
           setIsLoading(false);
         }
       })
       .catch((e) => {
         console.log(e);
-        toast.error("There's something wrong. Please try again later.");
+        toast.error(MESSAGE.UNKNOWN);
         setIsLoading(false);
       });
   };
@@ -63,6 +75,7 @@ function App() {
     <div className="container mx-auto px-4 py-8 text-gray-600">
       <form
         onSubmit={onSubmit}
+        method="post"
         className="rounded max-w-sm mx-auto shadow-lg p-4 border-solid border border-gray-100"
       >
         <legend className="text-center mb-4 pb-2 text-lg border-gray-400 border-solid border-b">
@@ -75,11 +88,14 @@ function App() {
               onChange={handleSelectFile}
               disabled={isLoading}
               className="hidden"
+              accept="text/csv"
             />
             {!!selectedFile ? (
               <>
                 <FileIcon className="text-3xl" />
-                <span className="text-sm">{selectedFile.name}</span>
+                <span className="text-sm" data-testid="file-name">
+                  {selectedFile.name}
+                </span>
               </>
             ) : (
               <>
@@ -103,20 +119,14 @@ function App() {
                 Processing...
               </span>
             ) : (
-              "Submit"
+              "Upload"
             )}
           </button>
         </fieldset>
       </form>
-      {/* <button
-        onClick={() => fetchData()}
-        className={`border border-solid border-gray-500 rounded py-1 px-2${
-          !selectedFile ? " cursor-not-allowed opacity-50" : ""
-        }`}
-      >
-        List data
-      </button> */}
-      {!!data && data.status === "success" ? (
+      {isError && !!error ? (
+        <div className="text-base p-3 text-center">{error.message}</div>
+      ) : !!data && data.status === STATUS.SUCCESS ? (
         data.data.total > 0 ? (
           <List initialData={data} />
         ) : (
@@ -125,7 +135,7 @@ function App() {
       ) : (
         <></>
       )}
-      <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
+      <Toaster position="top-center" toastOptions={{ duration: 50000 }} />
     </div>
   );
 }

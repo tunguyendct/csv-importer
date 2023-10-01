@@ -9,19 +9,23 @@ import Table from "./table";
 const { LIST_LIMIT } = AUTHOR;
 
 const List = ({ initialData }: { initialData: AuthorsResponse }) => {
-  const { data, isLoading, fetchData } = useFetchData(initialData);
+  const { data, isError, error, isLoading, fetchData } =
+    useFetchData(initialData);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(LIST_LIMIT);
   const [query, setQuery] = useState("");
+  
+  if (isError && !!error) {
+    return <div className="text-base p-3 text-center">{error.message}</div>;
+  }
 
   if (!data) return <></>;
-
+  
   const {
     data: { authors, total },
   } = data;
 
   const handleFetchData = (value: AuthorFilter) => {
-    const params = { page, q: query, limit, ...value };
+    const params = { page, q: query, limit: LIST_LIMIT, ...value };
     fetchData(params);
   };
 
@@ -34,7 +38,10 @@ const List = ({ initialData }: { initialData: AuthorsResponse }) => {
         query={query}
         isLoading={isLoading}
       />
-      <Table authors={authors} isLoading={isLoading} />
+      <Table
+        authors={authors}
+        isLoading={isLoading}
+      />
       <div className="mt-6 flex justify-end">
         <Pagination
           page={page}

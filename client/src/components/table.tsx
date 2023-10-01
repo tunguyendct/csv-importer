@@ -21,8 +21,12 @@ export default function Table({ isLoading, authors }: Props) {
               <td className="p-3 border-b border-r border-gray-200 text-center">
                 {row.postId}
               </td>
-              <td className="p-3 border-b border-r border-gray-200">{row.name}</td>
-              <td className="p-3 border-b border-r border-gray-200">{row.email}</td>
+              <td className="p-3 border-b border-r border-gray-200">
+                {row.name}
+              </td>
+              <td className="p-3 border-b border-r border-gray-200">
+                {row.email}
+              </td>
               <td className="p-3 border-b border-gray-200">{row.body}</td>
             </tr>
           ))}

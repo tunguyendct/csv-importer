@@ -17,7 +17,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 
 // API routes
 app.use("/api", router);

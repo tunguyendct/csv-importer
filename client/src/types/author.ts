@@ -1,4 +1,4 @@
-import { Status } from "./status";
+import { Status } from "./response";
 
 export type Author = {
   id: number;
