@@ -23,22 +23,32 @@ In your submission, must include the following:
 
 ## Tech Stack
 **MERN Stack** (MongoDB, Express.js, React.js, and Nodejs)
+
 - [Nodejs](https://nodejs.org/en): Backend
+
 - [Express.js](https://expressjs.com/): Backend framework
+
 - [MongoDB Atlas Database](https://www.mongodb.com/atlas/database): Database
+
 - [React](https://react.dev/): Frontend library
+
 - [Prisma](https://www.prisma.io): ORM
+
 - [TailwindCSS](https://tailwindcss.com): CSS framework
 
 Utilities:
 - [React Hot Toast](https://react-hot-toast.com/)
+
 - [React Paginate](https://github.com/AdeleD/react-paginate)
 
 ## Stucture
-1. `server` folder: Backend
-2. `client` folder: Frontend
+
+1. Folder `server`: Backend
+
+2. Folder `client`: Frontend
 
 ## Install
+
 **1. Clone repo**
 
 ```bash
@@ -47,8 +57,17 @@ git clone git@github.com:tunguyendct/stengg-mini-project.git && cd stengg-mini-p
 
 **2. Rename `.env` files**
 
-- Rename file `/server/.env.example` to `/server/.env`
-- Rename file `/client/.env.example` to `/client/.env`
+**Server**
+
+- Create `/server/.env` file
+
+- Copy content in file `.env` from my email into `/server/.env`
+
+**Client**
+
+- Create `/client/.env` file
+
+- Copy content in `/client/.env.example` into `/client/.env`
 
 **3. Install**
 
@@ -59,6 +78,7 @@ npm install
 ```
 
 **Client**
+
 ```bash
 npm run install:client
 ```
@@ -66,6 +86,7 @@ npm run install:client
 ## Run project
 
 **Server**
+
 ```bash
 npm run start
 ```
