@@ -55,7 +55,7 @@ Utilities:
 git clone git@github.com:tunguyendct/stengg-mini-project.git && cd stengg-mini-project
 ```
 
-**2. Rename `.env` files**
+**2. Add `.env` files**
 
 **Server**
 
