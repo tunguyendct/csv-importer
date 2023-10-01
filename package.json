@@ -9,7 +9,9 @@
     "start": "cd server && prisma generate && node index.js",
     "build": "cd client && npm i && npm run build",
     "install:client": "cd client && npm i",
-    "start:client": "cd client && npm run start"
+    "start:client": "cd client && npm run start",
+    "prepare": "husky install",
+    "type-check": "tsc --pretty --noEmit"
   },
   "author": "Tu Nguyen",
   "license": "ISC",
