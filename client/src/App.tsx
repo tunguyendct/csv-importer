@@ -142,7 +142,7 @@ function App() {
       ) : (
         <></>
       )}
-      <Toaster position="top-center" toastOptions={{ duration: 50000 }} />
+      <Toaster position="top-center" />
     </div>
   )
 }
